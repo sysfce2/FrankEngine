@@ -42,6 +42,8 @@ float g_interpolatePercent = 0;
 
 FrankRender::FrankRender()
 {
+	normalMapShader = NULL;
+	normalMapConstantTable = NULL;
 	ClearTextureList();
 }
 
@@ -56,20 +58,6 @@ void FrankRender::ClearTextureList()
 
 void FrankRender::InitDeviceObjects()
 {
-	if (!wasInitialized)
-	{
-		wasInitialized = true;
-		primitiveQuad.vb = NULL;
-		primitiveQuadOutline.vb = NULL;
-		primitiveCircle.vb = NULL;
-		primitiveCylinder.vb = NULL;
-		primitiveCube.vb = NULL;
-		primitiveLines.vb = NULL;
-		primitiveTris.vb = NULL;
-		normalMapShader = NULL;
-		normalMapConstantTable = NULL;
-	}
-
 	BuildQuad();
 	BuildCircle();
 	BuildCylinder();

@@ -564,7 +564,6 @@ private:
 	typedef pair<wstring, int> TextureNameHashPair;
 	unordered_map<wstring, int> textureHashMap;
 
-	bool wasInitialized = false;
 	bool isInRenderBlock = false;
 
 private: // simple vert stuff
