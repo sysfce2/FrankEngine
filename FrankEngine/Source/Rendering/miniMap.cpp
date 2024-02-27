@@ -413,8 +413,8 @@ void MiniMap::RenderMapHiddenToTexture()
 			continue;
 
 		Vector2 pos = g_terrain->GetPatchPos(IntVector2(i, j)) + Vector2(0.5f*float(Terrain::patchSize));
-		g_render->RenderQuad(pos, Vector2(float(Terrain::patchSize/2)), Color::Black(), Texture_Invalid, false);
-		g_render->RenderQuad(pos, Vector2(float(Terrain::patchSize/2-4)), Color::White(0.5f), Texture_Invalid, false);
+		g_render->RenderQuad(pos, Vector2(float(Terrain::patchSize/2)), Color::White(), Texture_Invalid, false);
+		g_render->RenderQuad(pos, Vector2(float(Terrain::patchSize/2-1)), Color::Black(0.8f), Texture_Invalid, false);
 	}
 }
 
@@ -527,10 +527,10 @@ void MiniMap::RenderTileToTexture(const TerrainTile& tile, const Vector2& tileOf
 void MiniMap::RenderTileToTexture(const TerrainTile& tile, const Vector2& tileOffset, const GameSurfaceInfo& surfaceInfo, const TextureID tileTexture)
 {
 	// tile set mode
-	const int surfaceID = surfaceInfo.GetID();
+	const int surfaceID = (tile.IsClear() || tile.IsAreaClear()) ? 0 : surfaceInfo.GetID();
 	const ByteVector2 tileSize(16, 16);
 	const ByteVector2 tilePos(surfaceID % 16, surfaceID / 16);
-	const Color color = (tile.IsClear() || tile.IsAreaClear()) ? Color::Black() : Color::White();
+	const Color color = Color::White();
 
 	g_render->RenderTile
 	(
