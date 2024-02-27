@@ -247,7 +247,7 @@ void MiniMap::RenderLargeMap()
 			for(int i=0; i<Terrain::fullSize.x; i += 2)
 			{
 				XForm2 patchXF = g_terrain->GetPatchPos(IntVector2(i, Terrain::fullSize.y/2)) + offset;
-				RenderMapQuad(patchXF, patchSize, Color::White(0), Texture_Invalid, Color::Grey(mapRenderSettings.alpha*0.2f));
+				RenderMapQuad(patchXF, patchSize, Color::White(0), Texture_Invalid, Color::Grey(mapRenderSettings.alpha*0.5f));
 			}
 		}
 		{
@@ -257,7 +257,7 @@ void MiniMap::RenderLargeMap()
 			for(int j=0; j<Terrain::fullSize.y; j += 2)
 			{
 				XForm2 patchXF = g_terrain->GetPatchPos(IntVector2(Terrain::fullSize.x/2, j)) + offset;
-				RenderMapQuad(patchXF, patchSize, Color::White(0), Texture_Invalid, Color::Grey(mapRenderSettings.alpha*0.2f));
+				RenderMapQuad(patchXF, patchSize, Color::White(0), Texture_Invalid, Color::Grey(mapRenderSettings.alpha*0.5f));
 			}
 		}
 	}
@@ -413,8 +413,8 @@ void MiniMap::RenderMapHiddenToTexture()
 			continue;
 
 		Vector2 pos = g_terrain->GetPatchPos(IntVector2(i, j)) + Vector2(0.5f*float(Terrain::patchSize));
-		g_render->RenderQuad(pos, Vector2(0.5f*float(Terrain::patchSize)), Color::Black(), Texture_Invalid, false);
-		g_render->RenderQuad(pos, Vector2(0.3f*float(Terrain::patchSize)), Color::Grey(0.5f), Texture_Invalid, false);
+		g_render->RenderQuad(pos, Vector2(float(Terrain::patchSize/2)), Color::Black(), Texture_Invalid, false);
+		g_render->RenderQuad(pos, Vector2(float(Terrain::patchSize/2-4)), Color::White(0.5f), Texture_Invalid, false);
 	}
 }
 
