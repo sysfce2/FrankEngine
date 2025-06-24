@@ -3350,8 +3350,10 @@ bool CDXUTButton::HandleMouse( UINT uMsg, POINT pt, WPARAM wParam, LPARAM lParam
                 m_bPressed = true;
                 SetCapture( DXUTGetHWND() );
 
-                if( !m_bHasFocus )
-                    m_pDialog->RequestFocus( this );
+                // clear focus when mouse is clicked instead of setting focus
+                //if( !m_bHasFocus )
+                //    m_pDialog->RequestFocus( this );
+                m_pDialog->ClearFocus();
 
                 return true;
             }
