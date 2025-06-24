@@ -242,6 +242,9 @@ void TerrainRender::Render(const Terrain& terrain, const Vector2 &pos, int layer
 	// hack: this seems to fix weird flicker issue with diffuse render
 	const DWORD d3dLighting = (!enableDiffuseLighting && !DeferredRender::GetRenderPass() && g_gameControlBase->IsGameplayMode()) ? FALSE : TRUE;
 	pd3dDevice->SetRenderState(D3DRS_LIGHTING, d3dLighting);
+
+	// should this always be true?
+	//pd3dDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 	
 	pd3dDevice->SetTextureStageState( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE );
 	pd3dDevice->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
@@ -258,6 +261,8 @@ void TerrainRender::Render(const Terrain& terrain, const Vector2 &pos, int layer
 		pd3dDevice->SetRenderState(D3DRS_AMBIENT, Color::White());
 	}
 	
+	// what is this for?
+	// if disabled some stuff alpha channel is wrong
 	pd3dDevice->SetTextureStageState( 1, D3DTSS_TEXCOORDINDEX, 0 );
 
 	if (cacheEnable && g_gameControlBase->IsGameplayMode())
@@ -286,6 +291,7 @@ void TerrainRender::Render(const Terrain& terrain, const Vector2 &pos, int layer
 			const TerrainPatch& patch = *terrain.GetPatch(i, j);
 			RenderSlow(patch, layer, alpha);
 		}
+		
 	}
 
 	pd3dDevice->SetRenderState(D3DRS_AMBIENT, savedAmbient);
@@ -697,6 +703,7 @@ void TerrainRender::RenderSlow(const TerrainPatch& patch, int layer, float alpha
 			else if (renderPass == DeferredRender::RenderPass_emissive)
 				c = surfaceInfo.emissiveColor;
 			c.a *= alpha;
+
 			RenderTile(tileOffset, edgeIndex, surface0Index, tile.GetTileSet(), surfaceInfo, c, rotation, mirror);
 		}
 		const BYTE surface1Index = tile.GetSurfaceData(1);
