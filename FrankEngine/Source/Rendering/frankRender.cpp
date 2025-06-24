@@ -737,6 +737,7 @@ void FrankRender::RenderSimpleVerts()
 
 void FrankRender::RenderSimpleLineVerts(const Color& color, bool makeBlack)
 {
+	ASSERT(simpleVertLineCount <= maxSimpleVerts);
 	if (simpleVertLineCount <= 1)
 	{
 		simpleVertLineCount = 0;
@@ -763,6 +764,7 @@ void FrankRender::RenderSimpleLineVerts(const Color& color, bool makeBlack)
 
 void FrankRender::RenderSimpleTriVerts(const Color& color, bool makeBlack, TextureID ti)
 {
+	ASSERT(simpleVertTriCount <= maxSimpleVerts);
 	if (simpleVertTriCount <= 2)
 	{
 		simpleVertTriCount = 0;
@@ -790,12 +792,11 @@ void FrankRender::RenderSimpleTriVerts(const Color& color, bool makeBlack, Textu
 void FrankRender::AddPointToLineVerts(const Vector2& position, DWORD color)
 {
 	ASSERT(position.IsFinite())
-	if (simpleVertLineCount >= maxSimpleVerts-2)
+	if (simpleVertLineCount >= maxSimpleVerts - 8)
 	{
 		SimpleVertex vert1 = simpleVertsLines[simpleVertLineCount-1];
 		simpleVertsLines[simpleVertLineCount++] = {vert1.position, 0};
 		RenderSimpleVerts();
-		simpleVertsLines[simpleVertLineCount++] = {vert1.position, 0};
 		simpleVertsLines[simpleVertLineCount++] = vert1;
 	}
 
@@ -807,15 +808,13 @@ void FrankRender::AddPointToLineVerts(const Vector2& position, DWORD color)
 void FrankRender::AddPointToTriVerts(const Vector2& position, DWORD color)
 {
 	ASSERT(position.IsFinite())
-	if (simpleVertTriCount >= maxSimpleVerts-4)
+	if (simpleVertTriCount >= maxSimpleVerts - 8)
 	{
 		SimpleVertex vert1 = simpleVertsTris[simpleVertTriCount-2];
 		SimpleVertex vert2 = simpleVertsTris[simpleVertTriCount-1];
 		simpleVertsTris[simpleVertTriCount++] = {vert2.position, 0};
 		simpleVertsTris[simpleVertTriCount++] = {vert2.position, 0};
 		RenderSimpleVerts();
-		simpleVertsTris[simpleVertTriCount++] = {vert1.position, 0};
-		simpleVertsTris[simpleVertTriCount++] = {vert1.position, 0};
 		simpleVertsTris[simpleVertTriCount++] = vert1;
 		simpleVertsTris[simpleVertTriCount++] = vert2;
 	}
